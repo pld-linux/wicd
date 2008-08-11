@@ -6,7 +6,7 @@ Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.5.1
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Applications
 Source0:	http://master.dl.sourceforge.net/sourceforge/wicd/%{name}-%{version}.tar.gz
@@ -79,8 +79,12 @@ fi
 /etc/dbus-1/system.d/wicd.conf
 %{_sysconfdir}/wicd
 %{_sysconfdir}/xdg/autostart/wicd-tray.desktop
-%dir %{_libdir}/%{module}/
-%attr(755,root,root) %{_libdir}/%{module}/*.py
+# NOTE: must be in /usr/lib/ even on 64bit systems
+#%%dir %{_libdir}/%{module}/
+%{_prefix}/lib/%{module}/
+
+#%%attr(755,root,root) %{_libdir}/%{module}/*.py
+%attr(755,root,root) %{_prefix}/lib/%{module}/*.py
 
 %attr(755,root,root) %{_bindir}/wicd-client
 %attr(755,root,root) %{_sbindir}/wicd
