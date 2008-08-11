@@ -9,7 +9,7 @@ Version:	1.5.1
 Release:	1
 License:	GPL v2
 Group:		Applications
-Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
+Source0:	http://master.dl.sourceforge.net/sourceforge/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	dda372b0778de24552850d3d877d1b65
 URL:		http://wicd.net/
 BuildRequires:	python-modules
