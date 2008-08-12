@@ -6,7 +6,7 @@ Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.5.1
-Release:	4
+Release:	5
 License:	GPL v2
 Group:		Applications
 Source0:	http://master.dl.sourceforge.net/sourceforge/wicd/%{name}-%{version}.tar.gz
@@ -17,6 +17,7 @@ BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
+Requires:	python-dbus
 Requires:	python-pygobject
 Requires:	python-pygtk-glade
 Requires:	python-pygtk-gtk
