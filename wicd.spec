@@ -29,8 +29,9 @@ which aims to provide a simple interface to connect to networks with a
 wide variety of settings.
 
 %description -l pl.UTF-8
-Wicd jest zarządcą sieci który stara się dostarczyć prosty
-interfejs do podłączania do sieci z różnorakimi opcjami.
+Wicd jest zarządcą sieci przewodowych i bezprzewodowych dla Linuksa,
+mającym zapewnić prosty interfejs do podłączania do sieci z
+różnorakimi opcjami.
 
 %prep
 %setup -q
