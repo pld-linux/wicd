@@ -50,6 +50,29 @@ rm -rf $RPM_BUILD_ROOT
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
 %py_postclean
 
+# no other ar exists here
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ar_EG,ar}
+# ???
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/bg_PHO
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ca_ES,ca}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{cs_CZ,cs}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{da_DK,da}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{el_GR,el}
+# duplicate of gl_ES
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/es_GL
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{et_EE,et}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{eu_ES,eu}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{gl_ES,gl}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ko_KR,ko}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ml_IN,ml}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{no,nb}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{sl_SI,sl}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{sp_MX,es_MX}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{sv_SE,sv}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{te_IN,te}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ua,uk}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{vi_VN,vi}
+
 %find_lang %{name}
 
 %clean
