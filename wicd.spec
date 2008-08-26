@@ -74,8 +74,8 @@ fi
 %{_prefix}/lib/%{name}
 %attr(755,root,root) %{_prefix}/lib/%{name}/*.py
 %dir %{py_sitescriptdir}/wicd
-%{py_sitescriptdir}/wicd*.py[co]
-%{py_sitescriptdir}/*.egg-info
+%{py_sitescriptdir}/wicd/*.py[co]
+%{py_sitescriptdir}/Wicd-*.egg-info
 %{_datadir}/%{name}
 %{_datadir}/autostart/wicd-tray.desktop
 %{_desktopdir}/wicd.desktop
