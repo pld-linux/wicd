@@ -52,8 +52,10 @@ rm -rf $RPM_BUILD_ROOT
 
 # no other ar exists here
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ar_EG,ar}
-# ???
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/bg_PHO
+# bg_BG is empty
+# %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/bg_BG
+# bogus? but see above
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{bg_PHO,bg}
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ca_ES,ca}
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{cs_CZ,cs}
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{da_DK,da}
