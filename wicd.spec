@@ -1,7 +1,7 @@
 # TODO: Needs review
 # TODO: Fix files list
 # TODO: Fix daemon status and stop (wicd dead but subsys locked but daemon running)
-%define 	module	wicd
+%define		module	wicd
 Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
@@ -40,7 +40,6 @@ interfejs do podłączania do sieci z różnorakimi opcjami.
 %build
 %{__python} setup.py build
 
-
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install \
@@ -49,7 +48,6 @@ rm -rf $RPM_BUILD_ROOT
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
 %py_postclean
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -78,7 +76,7 @@ fi
 %{_mandir}
 %{_datadir}/locale
 %{_datadir}/%{module}
-%{_iconsdir}/hicolor
+%{_iconsdir}/hicolor/*
 /etc/dbus-1/system.d/wicd.conf
 %{_sysconfdir}/wicd
 %{_sysconfdir}/xdg/autostart/wicd-tray.desktop
