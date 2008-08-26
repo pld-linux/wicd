@@ -10,6 +10,7 @@ Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	dda372b0778de24552850d3d877d1b65
 URL:		http://wicd.net/
+# /etc/pld-release used to detect platform
 BuildRequires:	issue
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
