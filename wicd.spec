@@ -1,7 +1,5 @@
 # TODO: Needs review
-# TODO: Fix files list
 # TODO: Fix daemon status and stop (wicd dead but subsys locked but daemon running)
-%define		module	wicd
 Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
@@ -45,15 +43,15 @@ rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
+
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
 %py_postclean
 
+%find_lang %{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%pre
-%postun
 
 %post
 /sbin/chkconfig --add %{name}
@@ -65,32 +63,29 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del %{name}
 fi
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS README
-%dir %{py_sitescriptdir}/%{module}
-%{py_sitescriptdir}/%{module}/*.py[co]
-%{py_sitescriptdir}/*.egg-info
-
-%{_pixmapsdir}/%{module}
-%{_mandir}
-%{_datadir}/locale
-%{_datadir}/%{module}
-%{_iconsdir}/hicolor/*
-/etc/dbus-1/system.d/wicd.conf
-%{_sysconfdir}/wicd
-%{_sysconfdir}/xdg/autostart/wicd-tray.desktop
-# NOTE: must be in /usr/lib/ even on 64bit systems
-#%%dir %{_libdir}/%{module}/
-%{_prefix}/lib/%{module}/
-
-#%%attr(755,root,root) %{_libdir}/%{module}/*.py
-%attr(755,root,root) %{_prefix}/lib/%{module}/*.py
-
 %attr(755,root,root) %{_bindir}/wicd-client
 %attr(755,root,root) %{_sbindir}/wicd
-%{_desktopdir}/wicd.desktop
+# NOTE: must be in /usr/lib even on 64bit systems
+%{_prefix}/lib/%{name}
+%attr(755,root,root) %{_prefix}/lib/%{name}/*.py
+%dir %{py_sitescriptdir}/wicd
+%{py_sitescriptdir}/wicd*.py[co]
+%{py_sitescriptdir}/*.egg-info
+%{_datadir}/%{name}
 %{_datadir}/autostart/wicd-tray.desktop
+%{_desktopdir}/wicd.desktop
+%{_iconsdir}/hicolor/*/apps/wicd-client.*
+%{_pixmapsdir}/%{name}
+%{_sysconfdir}/wicd
+%{_sysconfdir}/xdg/autostart/wicd-tray.desktop
+/etc/dbus-1/system.d/wicd.conf
+%attr(754,root,root) /etc/rc.d/init.d/%{name}
 /var/lib/%{name}
 /var/log/%{name}
-%attr(754,root,root) /etc/rc.d/init.d/%{name}
+%{_mandir}/man5/wicd-manager-settings.conf.5*
+%{_mandir}/man5/wicd-wired-settings.conf.5*
+%{_mandir}/man5/wicd-wireless-settings.conf.5*
+%{_mandir}/man8/wicd.8*
