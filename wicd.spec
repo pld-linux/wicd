@@ -12,12 +12,12 @@ Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 URL:		http://wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
+BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	python-dbus
-Requires:	python-devel
 Requires:	python-pygobject
 Requires:	python-pygtk-glade >= 2:2.0
 Requires:	python-pygtk-gtk >= 2:2.0
