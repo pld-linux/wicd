@@ -4,7 +4,7 @@ Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.5.1
-Release:	6
+Release:	7
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
@@ -53,8 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 
 # no other ar exists here
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ar_EG,ar}
-# bg_BG is empty
-# %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/bg_BG
+# bg_BG is empty, it will not be packaged
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{bg,bg_bogus}
 # bogus? but see above
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{bg_PHO,bg}
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ca_ES,ca}
