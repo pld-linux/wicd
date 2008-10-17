@@ -1,14 +1,14 @@
-# TODO: Needs review
 # TODO: Fix daemon status and stop (wicd dead but subsys locked but daemon running)
+# TODO: Fix files list
 Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
-Version:	1.5.1
-Release:	8
+Version:	1.5.3
+Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
-# Source0-md5:	dda372b0778de24552850d3d877d1b65
+# Source0-md5:	9273a27e545f24060c129ef7ca32805e
 URL:		http://wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
