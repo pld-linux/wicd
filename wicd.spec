@@ -3,12 +3,12 @@
 Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
-Version:	1.5.4
+Version:	1.5.8
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
-# Source0-md5:	2a2d120aecded75d4c07fcc4426098f6
+# Source0-md5:	93df47de53bbe172ab09affe94fe18f6
 URL:		http://wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
@@ -75,6 +75,8 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{sv_SE,sv}
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{te_IN,te}
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ua,uk}
 mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{vi_VN,vi}
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{fa_IR,fa}
+
 
 %find_lang %{name}
 
