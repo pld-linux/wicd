@@ -1,0 +1,54 @@
+--- wicd-1.5.9/in/init=pld=wicd.in.orig	2009-02-06 16:28:22.000000000 +0100
++++ wicd-1.5.9/in/init=pld=wicd.in	2009-08-20 22:48:55.000000000 +0200
+@@ -20,26 +20,28 @@
+ # [ -f /etc/sysconfig/wicd ] && . /etc/sysconfig/wicd
+ 
+ WICD_BIN=%SBIN%wicd
++WICD_PIDFILE=%PIDFILE%
++WICD_LOCKFILE=/var/lock/subsys/wicd
+ 
+ start() {
+ 	# Check if the service is already running?
+-	if [ ! -f /var/lock/subsys/wicd ]; then
++	if [ ! -f $WICD_LOCKFILE ]; then
+ 		msg_starting wicd
+ 		daemon $WICD_BIN
+ 		RETVAL=$?
+-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/wicd
++		[ $RETVAL -eq 0 ] && touch $WICD_LOCKFILE
+ 	else
+ 		msg_already_running wicd
+ 	fi
+ }
+ 
+ stop() {
+-	if [ -f /var/lock/subsys/wicd ]; then
++	if [ -f $WICD_LOCKFILE ]; then
+ 		# Stop daemons.
+ 		msg_stopping wicd
+ 		# killproc wicd
+-		killproc --pidfile /var/run/wicd.pid wicd -TERM
+-		rm -f /var/lock/subsys/wicd
++		killproc --pidfile $WICD_PIDFILE wicd -TERM
++		rm -f $WICD_LOCKFILE
+ 	else
+ 		msg_not_running wicd
+ 	fi
+@@ -47,7 +49,7 @@
+ 
+ 
+ condrestart() {
+-	if [ -f /var/lock/subsys/wicd ]; then
++	if [ -f $WICD_LOCKFILE ]; then
+ 		stop
+ 		start
+ 	else
+@@ -77,7 +79,7 @@
+ 	condrestart 7
+ 	;;
+   status)
+-	status wicd
++	status --pidfile $WICD_PIDFILE wicd
+ 	RETVAL=$?
+ 	;;
+   *)

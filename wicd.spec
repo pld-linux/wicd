@@ -1,14 +1,14 @@
-# TODO: Fix daemon status and stop (wicd dead but subsys locked but daemon running)
 # TODO: Fix files list
 Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.5.9
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	4743a30eb8e3898b8b1a319b0c373ce5
+Patch0:		%{name}-init_status.patch
 URL:		http://wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
@@ -36,6 +36,8 @@ różnorakimi opcjami.
 
 %prep
 %setup -q
+%patch0 -p1
+
 %{__python} setup.py configure \
 	--pidfile /var/run/wicd.pid
 
