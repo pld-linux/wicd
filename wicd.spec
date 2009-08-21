@@ -1,11 +1,8 @@
-# TODO:
-#	- Fix files list
-#	- mv from /lib/ to /lib64/ on x86_64
 Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.6.2
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
@@ -75,7 +72,10 @@ mv -f translations/{no,nb}
 mv -f translations/{ru_RU,ru}
 
 %{__python} setup.py configure \
-	--pidfile /var/run/wicd.pid
+	--backends %{_libdir}/%{name}/backends \
+	--lib %{_libdir}/%{name} \
+	--pidfile /var/run/wicd.pid \
+	--pmutils %{_libdir}/pm-utils/sleep.d
 
 %build
 %{__python} setup.py build
@@ -118,12 +118,11 @@ fi
 %{_sysconfdir}/xdg/autostart/wicd-tray.desktop
 %attr(754,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
 
-# NOTE: must be in /usr/lib even on 64bit systems
-%dir %{_prefix}/lib/%{name}
-%dir %{_prefix}/lib/%{name}/backends
-%attr(755,root,root) %{_prefix}/lib/%{name}/*.py
-%attr(755,root,root) %{_prefix}/lib/%{name}/backends/*.py
-%exclude %{_prefix}/lib/%{name}/*curses*.py
+%dir %{_libdir}/%{name}
+%dir %{_libdir}/%{name}/backends
+%attr(755,root,root) %{_libdir}/%{name}/*.py
+%attr(755,root,root) %{_libdir}/%{name}/backends/*.py
+%exclude %{_libdir}/%{name}/*curses*.py
 
 %dir %{py_sitescriptdir}/wicd
 %{py_sitescriptdir}/wicd/*.py[co]
@@ -147,8 +146,7 @@ fi
 %files client-curses
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/wicd-curses
-%attr(755,root,root) %{_prefix}/lib/%{name}/*curses*.py
-
+%attr(755,root,root) %{_libdir}/%{name}/*curses*.py
 %{_mandir}/man8/wicd-curses.8*
 
 %files -n pm-utils-wicd
