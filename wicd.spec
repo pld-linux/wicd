@@ -11,6 +11,7 @@ Patch0:		%{name}-init_status.patch
 URL:		http://wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
+BuildRequires:	libiw-devel
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
