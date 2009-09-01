@@ -2,9 +2,9 @@ Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.6.2.1
-Release:	1
+Release:	2
 License:	GPL v2
-Group:		X11/Applications
+Group:		X11/Applications/Networking
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	5d2668e12a4c7434ccde644d96c24cd0
 Patch0:		%{name}-init_status.patch
@@ -79,11 +79,28 @@ mv -f translations/{ru_RU,ru}
 %build
 %{__python} setup.py build
 
+cd depends/python-iwscan
+%{__python} setup.py build
+cd ../python-wpactrl
+%{__python} setup.py build
+
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
+
+cd depends/python-iwscan
+%{__python} setup.py install \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
+
+cd ../python-wpactrl
+%{__python} setup.py install \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
+
+cd ../..
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
@@ -126,6 +143,15 @@ fi
 %dir %{py_sitescriptdir}/wicd
 %{py_sitescriptdir}/wicd/*.py[co]
 %{py_sitescriptdir}/Wicd-*.egg-info
+
+%if "%{py_ver}" > "2.4"
+%{py_sitedir}/iwscan-*.egg-info
+%endif
+%{py_sitedir}/iwscan.so
+%if "%{py_ver}" > "2.4"
+%{py_sitedir}/wpactrl-*.egg-info
+%endif
+%{py_sitedir}/wpactrl.so
 
 %{_datadir}/%{name}
 %{_datadir}/autostart/wicd-tray.desktop
