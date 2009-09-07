@@ -17,6 +17,7 @@ BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
+Requires:	dbus(org.freedesktop.Notifications)
 Requires:	python-dbus
 Requires:	python-pygobject
 Requires:	python-pygtk-glade >= 2:2.0
