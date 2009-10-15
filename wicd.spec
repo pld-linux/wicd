@@ -2,7 +2,7 @@ Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.6.2.2
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
@@ -89,6 +89,7 @@ cd ../python-wpactrl
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__python} setup.py install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
@@ -126,7 +127,7 @@ fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS README
+%doc AUTHORS CHANGES INSTALL README 
 %attr(755,root,root) %{_bindir}/wicd-client
 %attr(755,root,root) %{_sbindir}/wicd
 #% {_sysconfdir}/acpi/resume.d/80-wicd-connect.sh
@@ -163,6 +164,7 @@ fi
 %{_iconsdir}/hicolor/*/apps/wicd-client.*
 %{_pixmapsdir}/%{name}
 
+/var/lib/%{name}
 /var/log/%{name}
 
 %{_mandir}/man1/wicd-client.1*
