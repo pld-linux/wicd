@@ -2,19 +2,21 @@ Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.6.2.2
-Release:	4
+Release:	5
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	acbbe695abf7ff83161c62317dfc7509
 Source1:	%{name}.init
 Patch0:		%{name}-init_status.patch
+Patch1:		bashism.patch
 URL:		http://www.wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
+BuildRequires:	sed >= 4.0
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	dbus(org.freedesktop.Notifications)
@@ -66,6 +68,7 @@ Skrypt wicd dla pm-utils.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 mv translations/{ar_EG,ar}
 mv translations/{de_DE,de}
@@ -74,6 +77,8 @@ mv translations/{it_IT,it}
 mv translations/{nl_NL,nl}
 mv translations/{no,nb}
 mv translations/{ru_RU,ru}
+
+grep -r bin/env.*python -l . | xargs sed -i -e '1s,^#!.*env python,#!%{__python},'
 
 %build
 %{__python} setup.py configure \
