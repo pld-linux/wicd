@@ -1,13 +1,12 @@
 #!/bin/sh
 #
-# wicd	wicd wireless connection daemon
+# wicd	Wicd Wireless Connection Daemon
 #
 # chkconfig:	345 99 01
 #
-# description:	wicd wireless connection daemon
+# description:	Wicd Wireless Connection Daemon
 #
 # processname:	wicd
-# config:
 # pidfile: /var/run/wicd.pid
 #
 # $Id$
@@ -15,47 +14,56 @@
 # Source function library
 . /etc/rc.d/init.d/functions
 
+# Get network config
+. /etc/sysconfig/network
 
 # Get service config - may override defaults
-# [ -f /etc/sysconfig/wicd ] && . /etc/sysconfig/wicd
+[ -f /etc/sysconfig/wicd ] && . /etc/sysconfig/wicd
 
-WICD_BIN=/usr/sbin/wicd
-WICD_PIDFILE=/var/run/wicd.pid
-WICD_LOCKFILE=/var/lock/subsys/wicd
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		msg_network_down "Wicd Connection Daemon"
+		exit 1
+	fi
+else
+	exit 0
+fi
 
 start() {
 	# Check if the service is already running?
-	if [ ! -f $WICD_LOCKFILE ]; then
-		msg_starting wicd
-		daemon $WICD_BIN
-		RETVAL=$?
-		[ $RETVAL -eq 0 ] && touch $WICD_LOCKFILE
-	else
-		msg_already_running wicd
+	if [ -f /var/lock/subsys/wicd ]; then
+		msg_already_running "Wicd Connection Daemon"
+		return
 	fi
+
+	msg_starting "Wicd Connection Daemon"
+	daemon /usr/sbin/wicd
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/wicd
 }
 
 stop() {
-	if [ -f $WICD_LOCKFILE ]; then
-		# Stop daemons.
-		msg_stopping wicd
-		# killproc wicd
-		killproc --pidfile $WICD_PIDFILE wicd -TERM
-		rm -f $WICD_LOCKFILE
-	else
-		msg_not_running wicd
+	if [ ! -f /var/lock/subsys/wicd ]; then
+		msg_not_running "Wicd Connection Daemon"
+		return
 	fi
+
+	# Stop daemons.
+	msg_stopping "Wicd Connection Daemon"
+	killproc --pidfile /var/run/wicd.pid wicd -TERM
+	rm -f /var/lock/subsys/wicd
 }
 
-
 condrestart() {
-	if [ -f $WICD_LOCKFILE ]; then
-		stop
-		start
-	else
-		msg_not_running wicd
+	if [ ! -f /var/lock/subsys/wicd ]; then
+		msg_not_running "Wicd Connection Daemon"
 		RETVAL=$1
+		return
 	fi
+
+	stop
+	start
 }
 
 RETVAL=0
@@ -74,12 +82,11 @@ case "$1" in
   try-restart)
 	condrestart 0
 	;;
-# use this one if program doesn't support reloading without restart
   force-reload)
 	condrestart 7
 	;;
   status)
-	status --pidfile $WICD_PIDFILE wicd
+	status --pidfile /var/run/wicd.pid wicd
 	RETVAL=$?
 	;;
   *)
