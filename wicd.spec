@@ -2,13 +2,14 @@ Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.6.2.2
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	acbbe695abf7ff83161c62317dfc7509
+Source1:	%{name}.init
 Patch0:		%{name}-init_status.patch
-URL:		http://wicd.net/
+URL:		http://www.wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
 BuildRequires:	libiw-devel
@@ -65,21 +66,21 @@ Skrypt wicd dla pm-utils.
 %setup -q
 %patch0 -p1
 
-mv -f translations/{ar_EG,ar}
-mv -f translations/{de_DE,de}
-mv -f translations/{es_ES,es}
-mv -f translations/{it_IT,it}
-mv -f translations/{nl_NL,nl}
-mv -f translations/{no,nb}
-mv -f translations/{ru_RU,ru}
+mv translations/{ar_EG,ar}
+mv translations/{de_DE,de}
+mv translations/{es_ES,es}
+mv translations/{it_IT,it}
+mv translations/{nl_NL,nl}
+mv translations/{no,nb}
+mv translations/{ru_RU,ru}
 
+%build
 %{__python} setup.py configure \
 	--backends %{_libdir}/%{name}/backends \
 	--lib %{_libdir}/%{name} \
 	--pidfile /var/run/wicd.pid \
 	--pmutils %{_libdir}/pm-utils/sleep.d
 
-%build
 %{__python} setup.py build
 
 cd depends/python-iwscan
@@ -104,6 +105,8 @@ cd ../python-wpactrl
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
 
+install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wicd
+
 cd ../..
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
@@ -111,6 +114,8 @@ cd ../..
 %py_postclean
 
 %find_lang %{name}
+
+rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -127,35 +132,24 @@ fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES INSTALL README 
+%doc AUTHORS CHANGES INSTALL README
 %attr(755,root,root) %{_bindir}/wicd-client
 %attr(755,root,root) %{_sbindir}/wicd
-#% {_sysconfdir}/acpi/resume.d/80-wicd-connect.sh
-#% {_sysconfdir}/acpi/suspend.d/50-wicd-suspend.sh
-
-%{_sysconfdir}/dbus-1/system.d/wicd.conf
+%attr(754,root,root) /etc/rc.d/init.d/%{name}
+%{_mandir}/man1/wicd-client.1*
+%{_mandir}/man5/wicd-manager-settings.conf.5*
+%{_mandir}/man5/wicd-wired-settings.conf.5*
+%{_mandir}/man5/wicd-wireless-settings.conf.5*
+%{_mandir}/man8/wicd.8*
+/etc/dbus-1/system.d/wicd.conf
 %{_sysconfdir}/wicd
 %{_sysconfdir}/xdg/autostart/wicd-tray.desktop
-%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/%{name}
 
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/backends
 %attr(755,root,root) %{_libdir}/%{name}/*.py
 %attr(755,root,root) %{_libdir}/%{name}/backends/*.py
 %exclude %{_libdir}/%{name}/*curses*.py
-
-%dir %{py_sitescriptdir}/wicd
-%{py_sitescriptdir}/wicd/*.py[co]
-%{py_sitescriptdir}/Wicd-*.egg-info
-
-%if "%{py_ver}" > "2.4"
-%{py_sitedir}/iwscan-*.egg-info
-%endif
-%{py_sitedir}/iwscan.so
-%if "%{py_ver}" > "2.4"
-%{py_sitedir}/wpactrl-*.egg-info
-%endif
-%{py_sitedir}/wpactrl.so
 
 %{_datadir}/%{name}
 %{_datadir}/autostart/wicd-tray.desktop
@@ -164,14 +158,22 @@ fi
 %{_iconsdir}/hicolor/*/apps/wicd-client.*
 %{_pixmapsdir}/%{name}
 
-/var/lib/%{name}
-/var/log/%{name}
+%dir %{py_sitescriptdir}/wicd
+%{py_sitescriptdir}/wicd/*.py[co]
+%{py_sitescriptdir}/Wicd-*.egg-info
 
-%{_mandir}/man1/wicd-client.1*
-%{_mandir}/man5/wicd-manager-settings.conf.5*
-%{_mandir}/man5/wicd-wired-settings.conf.5*
-%{_mandir}/man5/wicd-wireless-settings.conf.5*
-%{_mandir}/man8/wicd.8*
+%{py_sitedir}/iwscan.so
+%{py_sitedir}/wpactrl.so
+
+%if "%{py_ver}" > "2.4"
+%{py_sitedir}/iwscan-*.egg-info
+%{py_sitedir}/wpactrl-*.egg-info
+%endif
+
+%dir /var/lib/%{name}
+/var/lib/%{name}/WHEREAREMYFILES
+
+%dir /var/log/%{name}
 
 %files client-curses
 %defattr(644,root,root,755)
