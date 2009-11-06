@@ -2,7 +2,7 @@ Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.6.2.2
-Release:	3
+Release:	4
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
@@ -12,7 +12,6 @@ Patch0:		%{name}-init_status.patch
 URL:		http://www.wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
-BuildRequires:	libiw-devel
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
@@ -20,10 +19,12 @@ BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	dbus(org.freedesktop.Notifications)
 Requires:	python-dbus
+Requires:	python-iwscan
 Requires:	python-pygobject
 Requires:	python-pygtk-glade >= 2:2.0
 Requires:	python-pygtk-gtk >= 2:2.0
-Obsoletes:	wicd < 1.6.0
+Requires:	python-wpactrl
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -83,31 +84,13 @@ mv translations/{ru_RU,ru}
 
 %{__python} setup.py build
 
-cd depends/python-iwscan
-%{__python} setup.py build
-cd ../python-wpactrl
-%{__python} setup.py build
-
 %install
 rm -rf $RPM_BUILD_ROOT
-
-%{__python} setup.py install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
-
-cd depends/python-iwscan
-%{__python} setup.py install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
-
-cd ../python-wpactrl
 %{__python} setup.py install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wicd
-
-cd ../..
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
@@ -161,14 +144,6 @@ fi
 %dir %{py_sitescriptdir}/wicd
 %{py_sitescriptdir}/wicd/*.py[co]
 %{py_sitescriptdir}/Wicd-*.egg-info
-
-%{py_sitedir}/iwscan.so
-%{py_sitedir}/wpactrl.so
-
-%if "%{py_ver}" > "2.4"
-%{py_sitedir}/iwscan-*.egg-info
-%{py_sitedir}/wpactrl-*.egg-info
-%endif
 
 %dir /var/lib/%{name}
 /var/lib/%{name}/WHEREAREMYFILES
