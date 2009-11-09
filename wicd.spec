@@ -1,8 +1,13 @@
+# TODO
+# - fix pm-utils to store addons in non-arch dependant path so we could make this pkg noarch
+# - package (acpid-XXX):
+#   /etc/acpi/resume.d/80-wicd-connect.sh
+#   /etc/acpi/suspend.d/50-wicd-suspend.sh
 Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.6.2.2
-Release:	5
+Release:	6
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
@@ -26,8 +31,11 @@ Requires:	python-pygobject
 Requires:	python-pygtk-glade >= 2:2.0
 Requires:	python-pygtk-gtk >= 2:2.0
 Requires:	python-wpactrl
-BuildArch:	noarch
+# not noarch due pm-utils packaging stupidity
+#BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_libexecdir	%{_prefix}/lib/%{name}
 
 %description
 Wicd is an open source wired and wireless network manager for Linux
@@ -82,8 +90,6 @@ grep -r bin/env.*python -l . | xargs sed -i -e '1s,^#!.*env python,#!%{__python}
 
 %build
 %{__python} setup.py configure \
-	--backends %{_libdir}/%{name}/backends \
-	--lib %{_libdir}/%{name} \
 	--pidfile /var/run/wicd.pid \
 	--pmutils %{_libdir}/pm-utils/sleep.d
 
@@ -133,11 +139,11 @@ fi
 %{_sysconfdir}/wicd
 %{_sysconfdir}/xdg/autostart/wicd-tray.desktop
 
-%dir %{_libdir}/%{name}
-%dir %{_libdir}/%{name}/backends
-%attr(755,root,root) %{_libdir}/%{name}/*.py
-%attr(755,root,root) %{_libdir}/%{name}/backends/*.py
-%exclude %{_libdir}/%{name}/*curses*.py
+%dir %{_libexecdir}
+%dir %{_libexecdir}/backends
+%attr(755,root,root) %{_libexecdir}/*.py
+%attr(755,root,root) %{_libexecdir}/backends/*.py
+%exclude %{_libexecdir}/*curses*.py
 
 %{_datadir}/%{name}
 %{_datadir}/autostart/wicd-tray.desktop
@@ -158,7 +164,7 @@ fi
 %files client-curses
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/wicd-curses
-%attr(755,root,root) %{_libdir}/%{name}/*curses*.py
+%attr(755,root,root) %{_libexecdir}/*curses*.py
 %{_mandir}/man8/wicd-curses.8*
 
 %files -n pm-utils-wicd
