@@ -1,0 +1,10 @@
+- up to 1.7.0
+- package netherland's manuals
+- split GTK client from main to client subpackage
+- CLI client added
+- client subpackages descriptionss/summaries totally (were totally inconsistent)
+- commented _libexecdir redefinition (but setup reworked, so it can be
+  uncommented and spec builds/works). not sure about that anyway
+- package installation doesnt work because of fr_FR, etc. but instalation
+  scripts has been fucked by wicd devs (so its not mine fault and dont have
+  time now to fix it)
