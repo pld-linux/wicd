@@ -3,9 +3,10 @@
 # - package (acpid-XXX):
 #   /etc/acpi/resume.d/80-wicd-connect.sh
 #   /etc/acpi/suspend.d/50-wicd-suspend.sh
-# - now python libraries installs into /usr/share/wicd by default, so I commented libexecdir redefinition. but its now easy to revert and change install behaviour simply uncomenting it
-# - translations installing is broken. fr and FR both exists, hack with renaming doesnt work for hr_HR and ar_PS isnt in glibc yet. something is really fucked up, because I cannot find fr_FR nowhere in source dir (find + grep), but instalation creates empty dirs that break installation later :/
-
+# - notes about translations:
+#   - duplicate fr and fr_FR exist, we prefer fr_FR
+#   - ar_PS (Palestine) isn't in glibc yet.
+#   - ar_EG (Egypt) isn't in glibc yet. using ar instead
 Summary:	wired and wireless network manager
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
@@ -37,8 +38,6 @@ Requires:	python-wpactrl
 # not noarch due pm-utils packaging stupidity
 #BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-#%define		_libexecdir	%{_prefix}/lib/%{name}
 
 %description
 Wicd is an open source wired and wireless network manager for Linux
@@ -105,13 +104,13 @@ Skrypt wicd dla pm-utils.
 %patch0 -p1
 %patch1 -p1
 
-mv translations/{ar_EG,ar} # WTF? Then what do with ar_PS?
-rm -rf translations/ar_PS # so removing it temporary until somebody put those dirs into glibc
+mv translations/{ar_EG,ar}
+rm -rf translations/ar_PS
 mv translations/{de_DE,de}
 mv translations/{es_ES,es}
 rm -rf translations/fr
-mv translations/{fr_FR,fr} # We got serious problem there, because both fr and fr_FR exsists and differs
-#mv translations/{hr_HR,hr} # Doesnt work for me
+mv translations/{fr_FR,fr}
+mv translations/{hr_HR,hr}
 mv translations/{it_IT,it}
 mv translations/{nl_NL,nl}
 mv translations/{no,nb}
@@ -121,11 +120,6 @@ grep -r bin/env.*python -l . | xargs sed -i -e '1s,^#!.*env python,#!%{__python}
 
 %build
 %{__python} setup.py configure \
-	--backends %{_libexecdir}/backends \
-	--cli %{_libexecdir}/cli \
-	--curses %{_libexecdir}/curses \
-	--daemon %{_libexecdir}/daemon \
-	--gtk %{_libexecdir}/gtk \
 	--pidfile /var/run/wicd.pid \
 	--pmutils %{_libdir}/pm-utils/sleep.d
 
@@ -146,6 +140,8 @@ install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wicd
 %find_lang %{name}
 
 rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}
+rm -f $RPM_BUILD_ROOT/var/lib/%{name}/configurations/.empty_on_purpose
+rm -f $RPM_BUILD_ROOT/var/log/%{name}/.empty_on_purpose
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -177,39 +173,40 @@ fi
 /etc/dbus-1/system.d/wicd.conf
 %{_sysconfdir}/wicd
 %{_sysconfdir}/xdg/autostart/wicd-tray.desktop
-%dir %{_libexecdir}
-%dir %{_libexecdir}/backends
-%attr(755,root,root) %{_libexecdir}/backends/*.py
-%dir %{_libexecdir}/daemon
-%attr(755,root,root) %{_libexecdir}/daemon/*.py
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/backends
+%attr(755,root,root) %{_datadir}/%{name}/backends/*.py
+%dir %{_datadir}/%{name}/daemon
+%attr(755,root,root) %{_datadir}/%{name}/daemon/*.py
 %dir %{py_sitescriptdir}/wicd
 %{py_sitescriptdir}/wicd/*.py[co]
 %{py_sitescriptdir}/Wicd-*.egg-info
 %dir /var/lib/%{name}
+%dir /var/lib/%{name}/configurations
 /var/lib/%{name}/WHEREAREMYFILES
 %dir /var/log/%{name}
 
 %files client-cli
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/wicd-cli
-%dir %{_libexecdir}/cli
-%attr(755,root,root) %{_libexecdir}/cli/*.py
+%dir %{_datadir}/%{name}/cli
+%attr(755,root,root) %{_datadir}/%{name}/cli/*.py
 %{_mandir}/man8/wicd-cli.8*
 
 %files client-curses
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/wicd-curses
-%dir %{_libexecdir}/curses
-%attr(755,root,root) %{_libexecdir}/curses/*.py
+%dir %{_datadir}/%{name}/curses
+%attr(755,root,root) %{_datadir}/%{name}/curses/*.py
 %{_mandir}/man8/wicd-curses.8*
 %lang(nl) %{_mandir}/nl/man8/wicd-curses.8*
 
 %files client-gtk
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/wicd-gtk
-%dir %{_libexecdir}/gtk
-%{_libexecdir}/gtk/%{name}.glade
-%attr(755,root,root) %{_libexecdir}/gtk/*.py
+%dir %{_datadir}/%{name}/gtk
+%{_datadir}/%{name}/gtk/%{name}.glade
+%attr(755,root,root) %{_datadir}/%{name}/gtk/*.py
 %{_datadir}/autostart/wicd-tray.desktop
 %{_desktopdir}/wicd.desktop
 %{_iconsdir}/hicolor/*/apps/wicd-gtk.*
