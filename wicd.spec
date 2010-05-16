@@ -174,7 +174,6 @@ fi
 %lang(nl) %{_mandir}/nl/man8/wicd.8*
 /etc/dbus-1/system.d/wicd.conf
 %{_sysconfdir}/wicd
-%{_sysconfdir}/xdg/autostart/wicd-tray.desktop
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/backends
 %attr(755,root,root) %{_datadir}/%{name}/backends/*.py
@@ -206,6 +205,7 @@ fi
 %files client-gtk
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/wicd-gtk
+%{_sysconfdir}/xdg/autostart/wicd-tray.desktop
 %dir %{_datadir}/%{name}/gtk
 %{_datadir}/%{name}/gtk/%{name}.glade
 %attr(755,root,root) %{_datadir}/%{name}/gtk/*.py
