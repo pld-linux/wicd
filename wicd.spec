@@ -8,13 +8,14 @@
 #   - ar_PS (Palestine) isn't in glibc yet.
 #   - ar_EG (Egypt) isn't in glibc yet. using ar instead
 Summary:	wired and wireless network manager
+Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.0
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		X11/Applications/Networking
-Source0:	http://dl.sourceforge.net/wicd/%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	003d2e67240989db55934553437ba32a
 Source1:	%{name}.init
 Patch0:		%{name}-init_status.patch
@@ -45,6 +46,11 @@ Wicd is an open source wired and wireless network manager for Linux
 which aims to provide a simple interface to connect to networks with a
 wide variety of settings.
 
+%description  -l hu.UTF-8
+Wicd egy nyílt forráskódú vezeték és vezeték nélküli menedzser
+Linuxhoz, maely egy egyszerű felületet biztosít hálózatokhoz való
+csatlakozásokhoz a beállítások széles tárházával.
+
 %description -l pl.UTF-8
 Wicd jest zarządcą sieci przewodowych i bezprzewodowych dla Linuksa,
 mającym zapewnić prosty interfejs do podłączania do sieci z
@@ -52,6 +58,7 @@ różnorakimi opcjami.
 
 %package client-cli
 Summary:	wicd CLI client
+Summary(hu.UTF-8):	wicd CLI kliens
 Summary(pl.UTF-8):	klient wicd CLI
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
@@ -60,23 +67,32 @@ Requires:	python-urwid
 %description client-cli
 Wicd command line interface (ncurses) client.
 
+%description client-cli -l hu.UTF-8
+Wicd parancssoros (ncurses) kliens.
+
 %description client-cli -l pl.UTF-8
 Klient wicd z międzymordziem wiersza poleceń (ncurses).
 
 %package client-curses
 Summary:	wicd TUI client
+Summary(hu.UTF-8):	wicd TUI kliens
 Summary(pl.UTF-8):	klient wicd z TUI
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
+Requires:	python-urwid
 
 %description client-curses
 Wicd text user interface (ncurses) client.
+
+%description client-curses -l hu.UTF-8
+Wicd szöveges (ncurses) kliens.
 
 %description client-curses -l pl.UTF-8
 Klient Wicd z tesktowym międzymordziem uzytkownika (ncurses).
 
 %package client-gtk
 Summary:	wicd GUI client
+Summary(hu.UTF-8):	wicd GUI kliens
 Summary(pl.UTF-8):	klient wicd z GUI
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
@@ -84,11 +100,15 @@ Requires:	%{name} = %{version}-%{release}
 %description client-gtk
 Wicd graphical user interface (GTK+2) client.
 
+%description client-gtk -l hu.UTF-8
+Wicd grafikus (GTK+2) kliens.
+
 %description client-gtk -l pl.UTF-8
 Klient Wicd z graficznym międzymordziem użytkownika (GTK+2).
 
 %package -n pm-utils-wicd
 Summary:	wicd script for pm-utils
+Summary(hu.UTF-8):	wicd szkript pm-utils-hoz
 Summary(pl.UTF-8):	Skrypt wicd dla pm-utils
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
@@ -96,6 +116,9 @@ Requires:	pm-utils
 
 %description -n pm-utils-wicd
 Wicd script for pm-utils.
+
+%description -n pm-utils-wicd -l hu.UTF-8
+Wicd szkript pm-utils-hoz.
 
 %description -n pm-utils-wicd -l pl.UTF-8
 Skrypt wicd dla pm-utils.
