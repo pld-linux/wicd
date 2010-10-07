@@ -1,8 +1,4 @@
 # TODO
-# - second run of wicd:
-# 	ConfigParser.ParsingError: File contains parsing errors: /etc/wicd/wired-settings.conf
-#		[line  2]: 'ip\n'
-#		....
 # - fix pm-utils to store addons in non-arch dependant path so we could make this pkg noarch
 # - package (acpid-XXX):
 #   /etc/acpi/resume.d/80-wicd-connect.sh
@@ -16,7 +12,7 @@ Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.0
-Release:	5.1
+Release:	6
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}.tar.gz
