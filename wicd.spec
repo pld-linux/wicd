@@ -7,21 +7,22 @@
 #   - duplicate fr and fr_FR exist, we prefer fr_FR
 #   - ar_PS (Palestine) isn't in glibc yet.
 #   - ar_EG (Egypt) isn't in glibc yet. using ar instead
+
+%define		_pre	b2
+
 Summary:	wired and wireless network manager
 Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
-Version:	1.7.0
-Release:	6
+Version:	1.7.1
+Release:	0.%{_pre}.1
 License:	GPL v2+
 Group:		X11/Applications/Networking
-Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}.tar.gz
-# Source0-md5:	003d2e67240989db55934553437ba32a
+Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}%{_pre}.tar.gz
+# Source0-md5:	f0378b0ec6f91b0a8e09eb6090b94193
 Source1:	%{name}.init
 Patch0:		%{name}-init_status.patch
-Patch1:		bashism.patch
-Patch2:		%{name}-desktop.patch
-Patch3:		no-deepcopy.patch
+Patch1:		%{name}-desktop.patch
 URL:		http://www.wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
@@ -126,11 +127,9 @@ Wicd szkript pm-utils-hoz.
 Skrypt wicd dla pm-utils.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}%{_pre}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 mv translations/{ar_EG,ar}
 %{__rm} -r translations/ar_PS
@@ -233,7 +232,7 @@ fi
 %attr(755,root,root) %{_bindir}/wicd-gtk
 %{_sysconfdir}/xdg/autostart/wicd-tray.desktop
 %dir %{_datadir}/%{name}/gtk
-%{_datadir}/%{name}/gtk/%{name}.glade
+%{_datadir}/%{name}/gtk/%{name}.ui
 %attr(755,root,root) %{_datadir}/%{name}/gtk/*.py
 %{_datadir}/autostart/wicd-tray.desktop
 %{_desktopdir}/wicd.desktop
