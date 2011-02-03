@@ -1,0 +1,3 @@
+- updated to 1.7.1b2
+- wicd.glade -> wicd.ui
+- bashism.patch and no-deepcopy.patch applied upstream
