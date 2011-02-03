@@ -13,7 +13,7 @@ Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.0
 Release:	6
-License:	GPL v2
+License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	003d2e67240989db55934553437ba32a
@@ -38,6 +38,7 @@ Requires:	python-pygobject
 Requires:	python-pygtk-glade >= 2:2.0
 Requires:	python-pygtk-gtk >= 2:2.0
 Requires:	python-wpactrl
+Suggests:	wireless-tools
 # not noarch due pm-utils packaging stupidity
 #BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -60,7 +61,7 @@ różnorakimi opcjami.
 %package client-cli
 Summary:	wicd CLI client
 Summary(hu.UTF-8):	wicd CLI kliens
-Summary(pl.UTF-8):	klient wicd CLI
+Summary(pl.UTF-8):	Klient wicd CLI
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-urwid
@@ -72,12 +73,12 @@ Wicd command line interface (ncurses) client.
 Wicd parancssoros (ncurses) kliens.
 
 %description client-cli -l pl.UTF-8
-Klient wicd z międzymordziem wiersza poleceń (ncurses).
+Klient Wicd z międzymordziem wiersza poleceń (ncurses).
 
 %package client-curses
 Summary:	wicd TUI client
 Summary(hu.UTF-8):	wicd TUI kliens
-Summary(pl.UTF-8):	klient wicd z TUI
+Summary(pl.UTF-8):	Klient wicd z TUI
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-urwid
@@ -94,7 +95,7 @@ Klient Wicd z tesktowym międzymordziem uzytkownika (ncurses).
 %package client-gtk
 Summary:	wicd GUI client
 Summary(hu.UTF-8):	wicd GUI kliens
-Summary(pl.UTF-8):	klient wicd z GUI
+Summary(pl.UTF-8):	Klient wicd z GUI
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 
@@ -132,10 +133,10 @@ Skrypt wicd dla pm-utils.
 %patch3 -p1
 
 mv translations/{ar_EG,ar}
-rm -rf translations/ar_PS
+%{__rm} -r translations/ar_PS
 mv translations/{de_DE,de}
 mv translations/{es_ES,es}
-rm -rf translations/fr
+%{__rm} -r translations/fr
 mv translations/{fr_FR,fr}
 mv translations/{hr_HR,hr}
 mv translations/{it_IT,it}
@@ -143,7 +144,7 @@ mv translations/{nl_NL,nl}
 mv translations/{no,nb}
 mv translations/{ru_RU,ru}
 
-grep -r bin/env.*python -l . | xargs sed -i -e '1s,^#!.*env python,#!%{__python},'
+grep -r bin/env.*python -l . | xargs %{__sed} -i -e '1s,^#!.*env python,#!%{__python},'
 
 %build
 %{__python} setup.py configure \
@@ -166,9 +167,9 @@ install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wicd
 
 %find_lang %{name}
 
-rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}
-rm -f $RPM_BUILD_ROOT/var/lib/%{name}/configurations/.empty_on_purpose
-rm -f $RPM_BUILD_ROOT/var/log/%{name}/.empty_on_purpose
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
+%{__rm} $RPM_BUILD_ROOT/var/lib/%{name}/configurations/.empty_on_purpose
+%{__rm} $RPM_BUILD_ROOT/var/log/%{name}/.empty_on_purpose
 
 %clean
 rm -rf $RPM_BUILD_ROOT
