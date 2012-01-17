@@ -12,12 +12,14 @@ Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.0
-Release:	6
+Release:	7
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	003d2e67240989db55934553437ba32a
 Source1:	%{name}.init
+Source2:	%{name}.service
+Source3:	org.wicd.daemon.service
 Patch0:		%{name}-init_status.patch
 Patch1:		bashism.patch
 Patch2:		%{name}-desktop.patch
@@ -125,6 +127,14 @@ Wicd szkript pm-utils-hoz.
 %description -n pm-utils-wicd -l pl.UTF-8
 Skrypt wicd dla pm-utils.
 
+%package systemd
+Summary:	systemd unit for wicd
+Group:		Daemons
+Requires:	%{name} = %{version}-%{release}
+
+%description systemd
+systemd unit for wicd.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -161,6 +171,12 @@ rm -rf $RPM_BUILD_ROOT
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wicd
 
+# systemd
+install -d $RPM_BUILD_ROOT/%{systemdunitdir}
+install -d $RPM_BUILD_ROOT/%{_datadir}/dbus-1/system-services
+cp -p %{SOURCE2} $RPM_BUILD_ROOT/%{systemdunitdir}
+cp -p %{SOURCE3} $RPM_BUILD_ROOT/%{_datadir}/dbus-1/system-services
+
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
 %py_postclean
@@ -183,6 +199,15 @@ if [ "$1" = "0" ]; then
 	%service -q %{name} stop
 	/sbin/chkconfig --del %{name}
 fi
+
+%post systemd
+%systemd_post wicd.service
+
+%preun systemd
+%systemd_preun wicd.service
+
+%postun systemd
+%systemd_reload
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -246,3 +271,8 @@ fi
 %files -n pm-utils-wicd
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/pm-utils/sleep.d/*wicd
+
+%files systemd
+%defattr(644,root,root,755)
+%{systemdunitdir}/wicd.service
+%{_datadir}/dbus-1/system-services/org.wicd.daemon.service
