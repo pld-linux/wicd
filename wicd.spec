@@ -172,9 +172,9 @@ rm -rf $RPM_BUILD_ROOT
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wicd
 
 # systemd
-install -d $RPM_BUILD_ROOT/%{systemdunitdir}
-install -d $RPM_BUILD_ROOT/%{_datadir}/dbus-1/system-services
-cp -p %{SOURCE2} $RPM_BUILD_ROOT/%{systemdunitdir}
+install -d $RPM_BUILD_ROOT%{systemdunitdir}
+install -d $RPM_BUILD_ROOT%{_datadir}/dbus-1/system-services
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{systemdunitdir}
 cp -p %{SOURCE3} $RPM_BUILD_ROOT/%{_datadir}/dbus-1/system-services
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
