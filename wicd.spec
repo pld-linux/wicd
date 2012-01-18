@@ -19,7 +19,7 @@ Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}.tar.gz
 # Source0-md5:	003d2e67240989db55934553437ba32a
 Source1:	%{name}.init
 Source2:	%{name}.service
-Source3:	org.wicd.daemon.service
+Source3:	org.%{name}.daemon.service
 Patch0:		%{name}-init_status.patch
 Patch1:		bashism.patch
 Patch2:		%{name}-desktop.patch
@@ -30,7 +30,7 @@ BuildRequires:	issue
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.228
+BuildRequires:	rpmbuild(macros) >= 1.623
 BuildRequires:	sed >= 4.0
 Requires(post,preun):	/sbin/chkconfig
 Requires:	dbus(org.freedesktop.Notifications)
@@ -131,6 +131,7 @@ Skrypt wicd dla pm-utils.
 Summary:	systemd unit for wicd
 Group:		Daemons
 Requires:	%{name} = %{version}-%{release}
+Requires:	systemd-units
 
 %description systemd
 systemd unit for wicd.
