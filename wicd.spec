@@ -12,7 +12,7 @@ Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.0
-Release:	7
+Release:	8
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}.tar.gz
@@ -40,6 +40,7 @@ Requires:	python-pygobject
 Requires:	python-pygtk-glade >= 2:2.0
 Requires:	python-pygtk-gtk >= 2:2.0
 Requires:	python-wpactrl
+Requires:	systemd-units >= 0.38
 Suggests:	wireless-tools
 # not noarch due pm-utils packaging stupidity
 #BuildArch:	noarch
@@ -127,15 +128,6 @@ Wicd szkript pm-utils-hoz.
 %description -n pm-utils-wicd -l pl.UTF-8
 Skrypt wicd dla pm-utils.
 
-%package systemd
-Summary:	systemd unit for wicd
-Group:		Daemons
-Requires:	%{name} = %{version}-%{release}
-Requires:	systemd-units
-
-%description systemd
-systemd unit for wicd.
-
 %prep
 %setup -q
 %patch0 -p1
@@ -194,21 +186,20 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add %{name}
 %service %{name} restart
+%systemd_post wicd.service
 
 %preun
 if [ "$1" = "0" ]; then
 	%service -q %{name} stop
 	/sbin/chkconfig --del %{name}
 fi
-
-%post systemd
-%systemd_post wicd.service
-
-%preun systemd
 %systemd_preun wicd.service
 
-%postun systemd
+%postun
 %systemd_reload
+
+%triggerpostun -- %{name} < 1.7.0-8
+%systemd_trigger wicd.service
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -224,6 +215,8 @@ fi
 %lang(nl) %{_mandir}/nl/man5/wicd-wireless-settings.conf.5*
 %{_mandir}/man8/wicd.8*
 %lang(nl) %{_mandir}/nl/man8/wicd.8*
+%{systemdunitdir}/wicd.service
+%{_datadir}/dbus-1/system-services/org.wicd.daemon.service
 /etc/dbus-1/system.d/wicd.conf
 %{_sysconfdir}/wicd
 %dir %{_datadir}/%{name}
@@ -272,8 +265,3 @@ fi
 %files -n pm-utils-wicd
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/pm-utils/sleep.d/*wicd
-
-%files systemd
-%defattr(644,root,root,755)
-%{systemdunitdir}/wicd.service
-%{_datadir}/dbus-1/system-services/org.wicd.daemon.service
