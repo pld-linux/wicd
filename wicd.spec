@@ -4,8 +4,6 @@
 #   /etc/acpi/resume.d/80-wicd-connect.sh
 #   /etc/acpi/suspend.d/50-wicd-suspend.sh
 # - notes about translations:
-#   - duplicate fr and fr_FR exist, we prefer fr_FR
-#   - ar_PS (Palestine) isn't in glibc yet.
 #   - ar_EG (Egypt) isn't in glibc yet. using ar instead
 Summary:	wired and wireless network manager
 Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
@@ -24,8 +22,10 @@ Patch0:		%{name}-init_status.patch
 Patch1:		bashism.patch
 Patch2:		%{name}-desktop.patch
 URL:		http://www.wicd.net/
+BuildRequires:	gettext-devel
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
+BuildRequires:	python-babel
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
@@ -136,6 +136,7 @@ Skrypt wicd dla pm-utils.
 %patch2 -p1
 
 mv po/{ar_EG,ar}.po
+rm po/ast.po
 
 grep -r bin/env.*python -l . | xargs %{__sed} -i -e '1s,^#!.*env python,#!%{__python},'
 
@@ -145,6 +146,7 @@ grep -r bin/env.*python -l . | xargs %{__sed} -i -e '1s,^#!.*env python,#!%{__py
 	--pmutils %{_libdir}/pm-utils/sleep.d
 
 %{__python} setup.py build
+%{__python} setup.py compile_translations
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -216,7 +218,7 @@ fi
 %attr(755,root,root) %{_datadir}/%{name}/daemon/*.py
 %dir %{py_sitescriptdir}/wicd
 %{py_sitescriptdir}/wicd/*.py[co]
-%{py_sitescriptdir}/Wicd-*.egg-info
+%{py_sitescriptdir}/wicd-*.egg-info
 %dir /var/lib/%{name}
 %dir /var/lib/%{name}/configurations
 /var/lib/%{name}/WHEREAREMYFILES
@@ -242,9 +244,8 @@ fi
 %attr(755,root,root) %{_bindir}/wicd-gtk
 %{_sysconfdir}/xdg/autostart/wicd-tray.desktop
 %dir %{_datadir}/%{name}/gtk
-%{_datadir}/%{name}/gtk/%{name}.glade
+%{_datadir}/%{name}/gtk/%{name}.ui
 %attr(755,root,root) %{_datadir}/%{name}/gtk/*.py
-%{_datadir}/autostart/wicd-tray.desktop
 %{_desktopdir}/wicd.desktop
 %{_iconsdir}/hicolor/*/apps/wicd-gtk.*
 %{_pixmapsdir}/%{name}
