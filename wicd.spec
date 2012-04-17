@@ -11,12 +11,12 @@ Summary:	wired and wireless network manager
 Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
-Version:	1.7.0
-Release:	9
+Version:	1.7.1
+Release:	0.1
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}.tar.gz
-# Source0-md5:	003d2e67240989db55934553437ba32a
+# Source0-md5:	9c5664a0e850cddbe80942eabb10430a
 Source1:	%{name}.init
 Source2:	%{name}.service
 Source3:	org.%{name}.daemon.service
@@ -33,6 +33,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.623
 BuildRequires:	sed >= 4.0
 Requires(post,preun):	/sbin/chkconfig
+Requires(post,preun,postun):	systemd-units >= 38
 Requires:	dbus(org.freedesktop.Notifications)
 Requires:	python-dbus
 Requires:	python-iwscan
