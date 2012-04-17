@@ -23,7 +23,6 @@ Source3:	org.%{name}.daemon.service
 Patch0:		%{name}-init_status.patch
 Patch1:		bashism.patch
 Patch2:		%{name}-desktop.patch
-Patch3:		no-deepcopy.patch
 URL:		http://www.wicd.net/
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
@@ -135,19 +134,8 @@ Skrypt wicd dla pm-utils.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
-mv translations/{ar_EG,ar}
-%{__rm} -r translations/ar_PS
-mv translations/{de_DE,de}
-mv translations/{es_ES,es}
-%{__rm} -r translations/fr
-mv translations/{fr_FR,fr}
-mv translations/{hr_HR,hr}
-mv translations/{it_IT,it}
-mv translations/{nl_NL,nl}
-mv translations/{no,nb}
-mv translations/{ru_RU,ru}
+mv po/{ar_EG,ar}.po
 
 grep -r bin/env.*python -l . | xargs %{__sed} -i -e '1s,^#!.*env python,#!%{__python},'
 
