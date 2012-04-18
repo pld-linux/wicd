@@ -96,6 +96,18 @@ Wicd szöveges (ncurses) kliens.
 %description client-curses -l pl.UTF-8
 Klient Wicd z tesktowym międzymordziem uzytkownika (ncurses).
 
+%package kde-tray
+Summary:	wicd-tray KDE autostart
+Summary(pl.UTF-8):	Automatyczny start wicd-tray dla KDE
+Group:		Applications/System
+Requires:	%{name} = %{version}-%{release}
+
+%description kde-tray
+wicd-tray KDE autostart.
+
+%description kde-tray -l pl.UTF-8
+Automatyczny start wicd-tray dla KDE.
+
 %package client-gtk
 Summary:	wicd GUI client
 Summary(hu.UTF-8):	wicd GUI kliens
@@ -199,6 +211,7 @@ fi
 %attr(755,root,root) %{_bindir}/wicd-client
 %attr(755,root,root) %{_sbindir}/wicd
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
+/etc/logrotate.d/wicd.logrotate
 %{_mandir}/man5/wicd-manager-settings.conf.5*
 %lang(nl) %{_mandir}/nl/man5/wicd-manager-settings.conf.5*
 %{_mandir}/man5/wicd-wired-settings.conf.5*
@@ -252,6 +265,10 @@ fi
 %{_pixmapsdir}/wicd-gtk.xpm
 %{_mandir}/man1/wicd-client.1*
 %lang(nl) %{_mandir}/nl/man1/wicd-client.1*
+
+%files kde-tray
+%defattr(644,root,root,755)
+%{_datadir}/autostart/wicd-tray.desktop
 
 %files -n pm-utils-wicd
 %defattr(644,root,root,755)
