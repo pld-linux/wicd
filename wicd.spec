@@ -27,6 +27,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	issue
 BuildRequires:	python-babel
 BuildRequires:	python-devel
+BuildRequires:	python-distribute
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.623
