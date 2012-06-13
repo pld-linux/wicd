@@ -1,0 +1,15 @@
+# don't require kde4-kdelibs on builders
+--- setup.py.orig	2012-06-13 23:25:44.228006911 +0200
++++ setup.py	2012-06-13 23:26:32.061153694 +0200
+@@ -238,9 +238,9 @@
+                 # If neither kde-config nor kde4-config are not present or 
+                 # return an error, then we can assume that kde isn't installed
+                 # on the user's system
+-                self.no_install_kde = True
++                #self.no_install_kde = False
+                 # If the assumption above turns out to be wrong, do this:
+-                #pass # use our default
++                pass # use our default
+ 
+         self.python = '/usr/bin/python'
+         self.pidfile = '/var/run/wicd/wicd.pid'

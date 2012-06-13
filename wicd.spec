@@ -21,6 +21,7 @@ Source3:	org.%{name}.daemon.service
 Patch0:		%{name}-init_status.patch
 Patch1:		bashism.patch
 Patch2:		%{name}-desktop.patch
+Patch3:		install_kde.patch
 URL:		http://www.wicd.net/
 BuildRequires:	gettext-devel
 # /etc/pld-release used to detect platform
@@ -147,6 +148,7 @@ Skrypt wicd dla pm-utils.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p0
 
 mv po/{ar_EG,ar}.po
 rm po/ast.po
