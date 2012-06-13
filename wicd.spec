@@ -87,7 +87,7 @@ Summary(hu.UTF-8):	wicd TUI kliens
 Summary(pl.UTF-8):	Klient wicd z TUI
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
-Requires:	python-urwid
+Requires:	python-urwid >= 0.9.9
 
 %description client-curses
 Wicd text user interface (ncurses) client.
