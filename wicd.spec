@@ -9,12 +9,12 @@ Summary:	wired and wireless network manager
 Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
-Version:	1.7.1
+Version:	1.7.2.4
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Networking
-Source0:	http://downloads.sourceforge.net/wicd/%{name}-%{version}.tar.gz
-# Source0-md5:	9c5664a0e850cddbe80942eabb10430a
+Source0:	https://launchpad.net/wicd/1.7/%{version}/+download/wicd-%{version}.tar.gz
+# Source0-md5:	c2435ddfdef0b9898852d72a85a45f0f
 Source1:	%{name}.init
 Source2:	%{name}.service
 Source3:	org.%{name}.daemon.service
