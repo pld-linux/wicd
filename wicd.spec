@@ -10,7 +10,7 @@ Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.2.4
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	https://launchpad.net/wicd/1.7/%{version}/+download/wicd-%{version}.tar.gz
@@ -22,6 +22,8 @@ Patch0:		%{name}-init_status.patch
 Patch1:		bashism.patch
 Patch2:		%{name}-desktop.patch
 Patch3:		install_kde.patch
+Patch4:		urwid-fix1.patch
+Patch5:		urwid-fix2.patch
 URL:		http://www.wicd.net/
 BuildRequires:	gettext-devel
 # /etc/pld-release used to detect platform
@@ -149,6 +151,8 @@ Skrypt wicd dla pm-utils.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
+%patch4 -p0
+%patch5 -p0
 
 mv po/{ar_EG,ar}.po
 rm po/ast.po
