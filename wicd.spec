@@ -26,7 +26,7 @@ Patch4:		urwid-fix1.patch
 Patch5:		urwid-fix2.patch
 Patch6:		dbus-unicode.patch
 URL:		http://www.wicd.net/
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 # /etc/pld-release used to detect platform
 BuildRequires:	issue
 BuildRequires:	python-babel
