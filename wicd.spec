@@ -10,7 +10,7 @@ Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.2.4
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	https://launchpad.net/wicd/1.7/%{version}/+download/wicd-%{version}.tar.gz
@@ -39,6 +39,7 @@ BuildRequires:	sed >= 4.0
 Requires(post,preun):	/sbin/chkconfig
 Requires(post,preun,postun):	systemd-units >= 38
 Requires:	dbus(org.freedesktop.Notifications)
+Requires:	net-tools
 Requires:	python-dbus
 Requires:	python-iwscan
 Requires:	python-pygobject
