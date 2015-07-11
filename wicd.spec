@@ -9,12 +9,12 @@ Summary:	wired and wireless network manager
 Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
-Version:	1.7.2.4
-Release:	4
+Version:	1.7.3
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	https://launchpad.net/wicd/1.7/%{version}/+download/wicd-%{version}.tar.gz
-# Source0-md5:	c2435ddfdef0b9898852d72a85a45f0f
+# Source0-md5:	162ca2e6f4ab903bb7ab2bc0adb7d1aa
 Source1:	%{name}.init
 Source2:	%{name}.service
 Source3:	org.%{name}.daemon.service
@@ -153,9 +153,9 @@ Skrypt wicd dla pm-utils.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
-%patch4 -p0
-%patch5 -p0
-%patch6 -p0
+#%patch4 -p0
+#%patch5 -p0
+#%patch6 -p0
 
 mv po/{ar_EG,ar}.po
 rm po/ast.po
@@ -164,6 +164,7 @@ grep -r bin/env.*python -l . | xargs %{__sed} -i -e '1s,^#!.*env python,#!%{__py
 
 %build
 %{__python} setup.py configure \
+	--no-install-gnome-shell-extensions \
 	--pidfile /var/run/wicd.pid \
 	--pmutils %{_libdir}/pm-utils/sleep.d
 
@@ -271,7 +272,9 @@ fi
 %attr(755,root,root) %{_datadir}/%{name}/gtk/*.py
 %{_desktopdir}/wicd.desktop
 %{_iconsdir}/hicolor/*/apps/wicd-gtk.*
-%{_pixmapsdir}/%{name}
+%{_datadir}/%{name}/icons/hicolor/*/devices/*.png
+%{_datadir}/%{name}/icons/hicolor/*/devices/*.svg
+%{_datadir}/%{name}/icons/hicolor/*/status/*.png
 %{_pixmapsdir}/wicd-gtk.xpm
 %{_mandir}/man1/wicd-client.1*
 %lang(nl) %{_mandir}/nl/man1/wicd-client.1*
