@@ -22,9 +22,6 @@ Patch0:		%{name}-init_status.patch
 Patch1:		bashism.patch
 Patch2:		%{name}-desktop.patch
 Patch3:		install_kde.patch
-Patch4:		urwid-fix1.patch
-Patch5:		urwid-fix2.patch
-Patch6:		dbus-unicode.patch
 URL:		http://www.wicd.net/
 BuildRequires:	gettext-tools
 # /etc/pld-release used to detect platform
@@ -153,9 +150,6 @@ Skrypt wicd dla pm-utils.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
-#%patch4 -p0
-#%patch5 -p0
-#%patch6 -p0
 
 mv po/{ar_EG,ar}.po
 rm po/ast.po
