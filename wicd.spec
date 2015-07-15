@@ -10,7 +10,7 @@ Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.3
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	https://launchpad.net/wicd/1.7/%{version}/+download/wicd-%{version}.tar.gz
@@ -266,9 +266,7 @@ fi
 %attr(755,root,root) %{_datadir}/%{name}/gtk/*.py
 %{_desktopdir}/wicd.desktop
 %{_iconsdir}/hicolor/*/apps/wicd-gtk.*
-%{_datadir}/%{name}/icons/hicolor/*/devices/*.png
-%{_datadir}/%{name}/icons/hicolor/*/devices/*.svg
-%{_datadir}/%{name}/icons/hicolor/*/status/*.png
+%{_datadir}/%{name}/icons
 %{_pixmapsdir}/wicd-gtk.xpm
 %{_mandir}/man1/wicd-client.1*
 %lang(nl) %{_mandir}/nl/man1/wicd-client.1*
