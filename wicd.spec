@@ -9,12 +9,12 @@ Summary:	wired and wireless network manager
 Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
-Version:	1.7.3
-Release:	2
+Version:	1.7.4
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	https://launchpad.net/wicd/1.7/%{version}/+download/wicd-%{version}.tar.gz
-# Source0-md5:	162ca2e6f4ab903bb7ab2bc0adb7d1aa
+# Source0-md5:	aaa2e9f5320849e0b5d053099a6f0007
 Source1:	%{name}.init
 Source2:	%{name}.service
 Source3:	org.%{name}.daemon.service
@@ -49,6 +49,8 @@ Obsoletes:	wicd-systemd
 # not noarch due pm-utils packaging stupidity
 #BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%global	 	_enable_debug_packages	0
 
 %description
 Wicd is an open source wired and wireless network manager for Linux
@@ -146,15 +148,20 @@ Skrypt wicd dla pm-utils.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p0
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
+%patch -P3 -p0
 
 mv po/{ar_EG,ar}.po
 rm po/ast.po
 
 grep -r bin/env.*python -l . | xargs %{__sed} -i -e '1s,^#!.*env python,#!%{__python},'
+
+%{__sed} -E -i -e '1s,#!\s*/usr/bin/python(\s|$),#!%{__python}\1,' \
+      cli/wicd-cli.py \
+      gtk/gui.py \
+      gtk/prefs.py
 
 %build
 %{__python} setup.py configure \
@@ -167,9 +174,13 @@ grep -r bin/env.*python -l . | xargs %{__sed} -i -e '1s,^#!.*env python,#!%{__py
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__python} setup.py install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+		--optimize=2 \
+        --install-purelib=%{py_sitescriptdir} \
+        --install-platlib=%{py_sitedir} \
+		--root=$RPM_BUILD_ROOT
+
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/wicd
 
