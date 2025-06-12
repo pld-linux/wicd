@@ -10,7 +10,7 @@ Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.4
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	https://launchpad.net/wicd/1.7/%{version}/+download/wicd-%{version}.tar.gz
@@ -30,6 +30,8 @@ BuildRequires:	python-babel
 BuildRequires:	python-devel
 BuildRequires:	python-distribute
 BuildRequires:	python-modules
+# for fixing python2 code
+BuildRequires:	python3-fissix
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.623
 BuildRequires:	sed >= 4.0
@@ -162,6 +164,12 @@ grep -r bin/env.*python -l . | xargs %{__sed} -i -e '1s,^#!.*env python,#!%{__py
       cli/wicd-cli.py \
       gtk/gui.py \
       gtk/prefs.py
+
+%{__sed} -i -e "s#self.python =.*#self.python = '%{__python}'#g" setup.py
+%{__sed} -i -e "s#^python = #python = '%{__python}'#g" wicd/wpath.py
+
+%{__python3} -m fissix -f except --write --nobackups --no-diffs .
+%{__python3} -m fissix -f numliterals --write --nobackups --no-diffs .
 
 %build
 %{__python} setup.py configure \
