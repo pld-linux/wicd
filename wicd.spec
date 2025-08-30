@@ -1,3 +1,6 @@
+# 
+# Unmaintaioned since 2016, depends on deprecated python2
+#
 # TODO
 # - fix pm-utils to store addons in non-arch dependant path so we could make this pkg noarch
 # - package (acpid-XXX):
@@ -10,7 +13,7 @@ Summary(hu.UTF-8):	Vezeték és vezeték néklküli hálózati menedzser
 Summary(pl.UTF-8):	Zarządca sieci przewodowych i bezprzewodowych
 Name:		wicd
 Version:	1.7.4
-Release:	2
+Release:	2.1
 License:	GPL v2+
 Group:		X11/Applications/Networking
 Source0:	https://launchpad.net/wicd/1.7/%{version}/+download/wicd-%{version}.tar.gz
