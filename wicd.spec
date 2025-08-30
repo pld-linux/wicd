@@ -1,5 +1,5 @@
-# 
-# Unmaintaioned since 2016, depends on deprecated python2
+#
+# Unmaintained since 2016, depends on deprecated python2
 #
 # TODO
 # - fix pm-utils to store addons in non-arch dependant path so we could make this pkg noarch
